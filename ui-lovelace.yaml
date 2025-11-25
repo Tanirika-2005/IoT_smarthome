@@ -1,0 +1,97 @@
+title: Adaptive Smart Home
+views:
+  - title: Dashboard
+    path: dashboard
+    icon: mdi:home-assistant
+    cards:
+      # 1. Global Status Card
+      - type: entities
+        title: 🕒 System Status
+        entities:
+          - entity: sensor.simulation_time
+            name: Current Hour
+            icon: mdi:clock-outline
+
+      # 2. Living Room Card
+      - type: vertical-stack
+        cards:
+          - type: gauge
+            entity: sensor.ai_living_room
+            name: Living Room Brightness (AI)
+            min: 0
+            max: 100
+            unit: '%'
+            severity:
+              green: 0
+              yellow: 50
+              red: 85
+          
+          - type: entities
+            title: User Controls (Living Room)
+            show_header_toggle: false
+            entities:
+              - entity: input_number.parent_living_room
+                name: Parent
+                icon: mdi:account-tie
+              - entity: input_number.child_living_room
+                name: Child
+                icon: mdi:account-school
+              - entity: input_number.guest_living_room
+                name: Guest
+                icon: mdi:account
+
+      # 3. Bedroom Card
+      - type: vertical-stack
+        cards:
+          - type: gauge
+            entity: sensor.ai_bedroom
+            name: Bedroom Brightness (AI)
+            min: 0
+            max: 100
+            unit: '%'
+            severity:
+              green: 0
+              yellow: 50
+              red: 85
+          
+          - type: entities
+            title: User Controls (Bedroom)
+            show_header_toggle: false
+            entities:
+              - entity: input_number.parent_bedroom
+                name: Parent
+                icon: mdi:account-tie
+              - entity: input_number.child_bedroom
+                name: Child
+                icon: mdi:account-school
+              - entity: input_number.guest_bedroom
+                name: Guest
+                icon: mdi:account
+
+      # 4. Kitchen Card
+      - type: vertical-stack
+        cards:
+          - type: gauge
+            entity: sensor.ai_kitchen
+            name: Kitchen Brightness (AI)
+            min: 0
+            max: 100
+            unit: '%'
+            severity:
+              green: 0
+              yellow: 50
+              red: 85
+          
+          - type: entities
+            title: User Controls (Kitchen)
+            show_header_toggle: false
+            entities:
+              - entity: input_number.parent_kitchen
+                name: Parent
+                icon: mdi:account-tie
+              - entity: input_number.child_kitchen
+                name: Child
+                icon: mdi:account-school
+              - entity: input_number.guest_kitchen
+                name: Guest
+                icon: mdi:account

@@ -1,6 +1,9 @@
 # Multi-Room Home Assistant Configuration
 # Cleaned UI - No Text Boxes, No Locations, Added Time
 
+lovelace:
+  mode: yaml
+
 # Input sliders for each user × room combination
 input_number:
   # Living Room

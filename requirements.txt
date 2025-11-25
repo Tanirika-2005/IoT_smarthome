@@ -1,3 +1,10 @@
-paho-mqtt>=1.6.1
-numpy>=1.26.0
-scikit-learn>=1.4.0
+paho-mqtt
+numpy
+scikit-learn
+torch
+gymnasium
+stable-baselines3
+onnx
+onnxruntime
+tensorflow-cpu
+onnx-tf

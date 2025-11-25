@@ -30,7 +30,7 @@ def init_rooms():
     
     for room_id, room_display in room_configs:
         learner = BrightnessLearner(
-            model_file=f"models/{room_id}_model.pkl",
+            model_file=f"models/{room_id}_model.pth",
             location_boost=1
         )
         learner.device_location = room_display  # Set room name
