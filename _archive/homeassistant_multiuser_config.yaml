@@ -1,0 +1,133 @@
+# Home Assistant Multi-User Brightness Control Configuration
+# Add this to your Home Assistant configuration.yaml
+
+mqtt:
+  sensor:
+    # Current sensor readings
+    - name: "Environment Hour"
+      state_topic: "home/sensor/hour"
+      unit_of_measurement: "h"
+      icon: "mdi:clock-outline"
+    
+    - name: "Environment Motion"
+      state_topic: "home/sensor/motion"
+      icon: "mdi:motion-sensor"
+    
+    - name: "Environment Light Level"
+      state_topic: "home/sensor/light"
+      unit_of_measurement: "lux"
+      icon: "mdi:brightness-6"
+    
+    # Multi-user context
+    - name: "Parent Location"
+      state_topic: "home/user/parent/location"
+      icon: "mdi:account"
+    
+    - name: "Child Location"
+      state_topic: "home/user/child/location"
+      icon: "mdi:account-child"
+    
+    - name: "Guest Location"
+      state_topic: "home/user/guest/location"
+      icon: "mdi:account-supervisor"
+    
+    # ML Model output
+    - name: "AI Predicted Brightness"
+      state_topic: "home/device/light/brightness"
+      unit_of_measurement: "%"
+      icon: "mdi:lightbulb-on"
+    
+    # Conflict notifications
+    - name: "Conflict Status"
+      state_topic: "home/conflict/brightness"
+      icon: "mdi:alert-circle"
+
+  # User brightness preference inputs (sliders send to these topics)
+  number:
+    - name: "Parent Brightness Preference"
+      command_topic: "home/user/parent/brightness_pref"
+      state_topic: "home/user/parent/brightness_pref"
+      min: 0
+      max: 100
+      step: 5
+      unit_of_measurement: "%"
+      icon: "mdi:lightbulb-outline"
+      mode: "slider"
+    
+    - name: "Child Brightness Preference"
+      command_topic: "home/user/child/brightness_pref"
+      state_topic: "home/user/child/brightness_pref"
+      min: 0
+      max: 100
+      step: 5
+      unit_of_measurement: "%"
+      icon: "mdi:lightbulb-outline"
+      mode: "slider"
+    
+    - name: "Guest Brightness Preference"
+      command_topic: "home/user/guest/brightness_pref"
+      state_topic: "home/user/guest/brightness_pref"
+      min: 0
+      max: 100
+      step: 5
+      unit_of_measurement: "%"
+      icon: "mdi:lightbulb-outline"
+      mode: "slider"
+
+# Input helpers for local state
+input_number:
+  parent_brightness:
+    name: "Parent's Preferred Brightness"
+    min: 0
+    max: 100
+    step: 5
+    unit_of_measurement: "%"
+    icon: "mdi:account"
+  
+  child_brightness:
+    name: "Child's Preferred Brightness"
+    min: 0
+    max: 100
+    step: 5
+    unit_of_measurement: "%"
+    icon: "mdi:account-child"
+  
+  guest_brightness:
+    name: "Guest's Preferred Brightness"
+    min: 0
+    max: 100
+    step: 5
+    unit_of_measurement: "%"
+    icon: "mdi:account-supervisor"
+
+# Automations to send preferences to MQTT
+automation:
+  - alias: "Parent Set Brightness"
+    trigger:
+      - platform: state
+        entity_id: input_number.parent_brightness
+    action:
+      - service: mqtt.publish
+        data:
+          topic: "home/user/parent/brightness_pref"
+          payload: "{{ states('input_number.parent_brightness') }}"
+  
+  - alias: "Child Set Brightness"
+    trigger:
+      - platform: state
+        entity_id: input_number.child_brightness
+    action:
+      - service: mqtt.publish
+        data:
+          topic: "home/user/child/brightness_pref"
+          payload: "{{ states('input_number.child_brightness') }}"
+  
+  - alias: "Guest Set Brightness"
+    trigger:
+      - platform: state
+        entity_id: input_number.guest_brightness
+    action:
+      - service: mqtt.publish
+        data:
+          topic: "home/user/guest/brightness_pref"
+          payload: "{{ states('input_number.guest_brightness') }}"

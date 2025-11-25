@@ -1,0 +1,62 @@
+======================================================================
+📊 BRIGHTNESS MODEL EVALUATION (IEEE-STANDARD)
+======================================================================
+Total dataset size: 675 samples
+Train size: 540 samples, Test size: 135 samples
+Multi-user dataset: 3 users (child, guest, parent)
+
+Per-User Sample Counts:
+  child          : 207 samples
+  guest          :  95 samples
+  parent         : 373 samples
+
+======================================================================
+OVERALL PERFORMANCE (on test set)
+======================================================================
+Linear regression model (ours) → MAE=9.11, RMSE=10.75
+Rule-based baseline           → MAE=19.74, RMSE=31.92
+Mean-brightness baseline      → MAE=28.19, RMSE=30.44
+
+======================================================================
+CROSS-VALIDATION ANALYSIS (5-Fold)
+======================================================================
+5-Fold Cross-Validation Results:
+  MAE:  9.04 ± 0.77%
+  RMSE: 10.99 ± 0.67%
+  Stability: ✓ Stable
+
+======================================================================
+STATISTICAL SIGNIFICANCE
+======================================================================
+Bootstrap Confidence Intervals (95%):
+  MAE: 9.11% [CI: 8.12%, 10.04%]
+
+T-test vs Rule-based Baseline:
+  t-statistic: -4.7859
+  p-value: 0.000003
+  Significant: ✓ Yes (p < 0.05)
+
+======================================================================
+ABLATION STUDY
+======================================================================
+Component Analysis:
+  Full System (α=1.0):        MAE = 9.11%
+  No Regularization (α=0):    MAE = 9.13% (+0.02%)
+  High Regularization (α=10): MAE = 8.99% (-0.12%)
+
+Conclusion: Ridge regularization (α=1.0) provides optimal balance
+
+======================================================================
+PER-USER PERFORMANCE (test set)
+======================================================================
+child          : MAE=7.91, RMSE=9.58 (n=35)
+guest          : MAE=8.44, RMSE=11.63 (n=21)
+parent         : MAE=9.81, RMSE=11.00 (n=79)
+
+======================================================================
+CONFLICT ANALYSIS
+======================================================================
+Total conflicts detected: 1434
+High-priority user wins: 1424/1434 (99.3%)
+
+======================================================================

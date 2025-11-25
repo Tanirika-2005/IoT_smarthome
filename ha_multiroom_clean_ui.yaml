@@ -1,0 +1,185 @@
+# Multi-Room Home Assistant Configuration
+# Cleaned UI - No Text Boxes, No Locations, Added Time
+
+# Input sliders for each user × room combination
+input_number:
+  # Living Room
+  parent_living_room:
+    name: "Parent (Living Room)"
+    min: 0
+    max: 100
+    step: 5
+    mode: slider
+    
+  child_living_room:
+    name: "Child (Living Room)"
+    min: 0
+    max: 100
+    step: 5
+    mode: slider
+    
+  guest_living_room:
+    name: "Guest (Living Room)"
+    min: 0
+    max: 100
+    step: 5
+    mode: slider
+  
+  # Bedroom
+  parent_bedroom:
+    name: "Parent (Bedroom)"
+    min: 0
+    max: 100
+    step: 5
+    mode: slider
+    
+  child_bedroom:
+    name: "Child (Bedroom)"
+    min: 0
+    max: 100
+    step: 5
+    mode: slider
+    
+  guest_bedroom:
+    name: "Guest (Bedroom)"
+    min: 0
+    max: 100
+    step: 5
+    mode: slider
+  
+  # Kitchen
+  parent_kitchen:
+    name: "Parent (Kitchen)"
+    min: 0
+    max: 100
+    step: 5
+    mode: slider
+    
+  child_kitchen:
+    name: "Child (Kitchen)"
+    min: 0
+    max: 100
+    step: 5
+    mode: slider
+    
+  guest_kitchen:
+    name: "Guest (Kitchen)"
+    min: 0
+    max: 100
+    step: 5
+    mode: slider
+
+# MQTT sensors for AI predictions + Time
+mqtt:
+  sensor:
+    - name: "AI Living Room"
+      state_topic: "home/device/living_room/light/brightness"
+      unit_of_measurement: "%"
+      
+    - name: "AI Bedroom"
+      state_topic: "home/device/bedroom/light/brightness"
+      unit_of_measurement: "%"
+      
+    - name: "AI Kitchen"
+      state_topic: "home/device/kitchen/light/brightness"
+      unit_of_measurement: "%"
+      
+    - name: "Simulation Time"
+      state_topic: "home/sensor/hour"
+      unit_of_measurement: "h"
+      icon: "mdi:clock-outline"
+
+# Automations to publish slider changes to MQTT
+automation:
+  # Living Room
+  - alias: "Parent Living Room Slider"
+    trigger:
+      platform: state
+      entity_id: input_number.parent_living_room
+    action:
+      service: mqtt.publish
+      data:
+        topic: "home/user/parent/living_room/brightness_pref"
+        payload: "{{ states('input_number.parent_living_room') | int }}"
+        
+  - alias: "Child Living Room Slider"
+    trigger:
+      platform: state
+      entity_id: input_number.child_living_room
+    action:
+      service: mqtt.publish
+      data:
+        topic: "home/user/child/living_room/brightness_pref"
+        payload: "{{ states('input_number.child_living_room') | int }}"
+        
+  - alias: "Guest Living Room Slider"
+    trigger:
+      platform: state
+      entity_id: input_number.guest_living_room
+    action:
+      service: mqtt.publish
+      data:
+        topic: "home/user/guest/living_room/brightness_pref"
+        payload: "{{ states('input_number.guest_living_room') | int }}"
+  
+  # Bedroom
+  - alias: "Parent Bedroom Slider"
+    trigger:
+      platform: state
+      entity_id: input_number.parent_bedroom
+    action:
+      service: mqtt.publish
+      data:
+        topic: "home/user/parent/bedroom/brightness_pref"
+        payload: "{{ states('input_number.parent_bedroom') | int }}"
+        
+  - alias: "Child Bedroom Slider"
+    trigger:
+      platform: state
+      entity_id: input_number.child_bedroom
+    action:
+      service: mqtt.publish
+      data:
+        topic: "home/user/child/bedroom/brightness_pref"
+        payload: "{{ states('input_number.child_bedroom') | int }}"
+        
+  - alias: "Guest Bedroom Slider"
+    trigger:
+      platform: state
+      entity_id: input_number.guest_bedroom
+    action:
+      service: mqtt.publish
+      data:
+        topic: "home/user/guest/bedroom/brightness_pref"
+        payload: "{{ states('input_number.guest_bedroom') | int }}"
+  
+  # Kitchen
+  - alias: "Parent Kitchen Slider"
+    trigger:
+      platform: state
+      entity_id: input_number.parent_kitchen
+    action:
+      service: mqtt.publish
+      data:
+        topic: "home/user/parent/kitchen/brightness_pref"
+        payload: "{{ states('input_number.parent_kitchen') | int }}"
+        
+  - alias: "Child Kitchen Slider"
+    trigger:
+      platform: state
+      entity_id: input_number.child_kitchen
+    action:
+      service: mqtt.publish
+      data:
+        topic: "home/user/child/kitchen/brightness_pref"
+        payload: "{{ states('input_number.child_kitchen') | int }}"
+        
+  - alias: "Guest Kitchen Slider"
+    trigger:
+      platform: state
+      entity_id: input_number.guest_kitchen
+    action:
+      service: mqtt.publish
+      data:
+        topic: "home/user/guest/kitchen/brightness_pref"
+        payload: "{{ states('input_number.guest_kitchen') | int }}"
