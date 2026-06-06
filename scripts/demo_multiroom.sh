@@ -12,11 +12,11 @@ echo "1. Checking services..."
 pkill -f "fake_sensors\|multi_room" 2>/dev/null
 sleep 1
 
-cd ~/adaptive_smart_home
-source venv/bin/activate
+cd "$(dirname "$0")/.."
+source venv/bin/activate 2>/dev/null || true
 
-python fake_sensors_multiroom.py &>/dev/null &
-python multi_room_controller.py &>/dev/null &
+python src/fake_sensors_multiroom.py &>/dev/null &
+python src/multi_room_controller.py &>/dev/null &
 sleep 3
 
 echo "   ✅ Services started"
