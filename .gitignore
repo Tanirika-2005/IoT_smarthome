@@ -5,5 +5,12 @@ __pycache__/
 .env
 *.csv
 *.log
+*.pth
 rl_logs/
 archive/
+models/
+logs/
+.idea/
+*.egg-info/
+dist/
+build/
